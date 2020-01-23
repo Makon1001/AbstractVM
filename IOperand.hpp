@@ -10,6 +10,7 @@
 #define IOperand_hpp
 
 #include <stdio.h>
+#include "Enum.hpp"
 
 class IOperand
 {

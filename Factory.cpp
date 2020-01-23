@@ -7,10 +7,11 @@
 //
 
 #include "Factory.hpp"
-#include "eOperandType.hpp"
+
 #include "IOperand.hpp"
 #include <iostream>
 #include <string>
+#include "Enum.hpp"
 
 
 using namespace std;
@@ -53,29 +54,29 @@ IOperand* Factory::createBigDecimal(const std::string& value)
 }
 
 
-IOperand* Factory::createOperand (TypeAbstractVM::eOperandType type, const std::string& value)
+IOperand* Factory::createOperand(eOperandType type, const std::string& value)
 {
     IOperand* Operand;
     
     switch (type)
     {
-        case TypeAbstractVM::Int8 :
-            
+        case Int8 :
+            Operand = createInt8(value);
             break;
-        case TypeAbstractVM::Int16 :
-            
+        case Int16 :
+            Operand = createInt16(value);
             break;
-        case TypeAbstractVM::Int32 :
-            
+        case Int32 :
+            Operand = createInt32(value);
             break;
-        case TypeAbstractVM::Float :
-            
+        case Float :
+            Operand = createFloat(value);
             break;
-        case TypeAbstractVM::Double :
-            
+        case Double :
+            Operand = createDouble(value);
             break;
-        case TypeAbstractVM::BigDecimal :
-            
+        case BigDecimal :
+            Operand = createBigDecimal(value);
             break;
         default :
             cout << "Erreur de type" << endl;

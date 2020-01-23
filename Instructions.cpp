@@ -7,6 +7,7 @@
 //
 
 #include "Instructions.hpp"
+#include "EnumParser.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -17,7 +18,7 @@
 
 using namespace std;
 
-vector<string> Instructions::split_line_of_instruction(string const line) const
+vector<string> Instructions::split_line_of_instruction(string const & line) const
 {
     std::istringstream iss(line);
     std::vector<std::string> results(std::istream_iterator<std::string>{iss},
@@ -25,7 +26,7 @@ vector<string> Instructions::split_line_of_instruction(string const line) const
     return results;
 }
 
-bool Instructions::verif_line_of_instructions(vector<string> const results) const
+bool Instructions::verif_line_of_instructions(vector<string> const & results) const
 {
     bool test_word_instruction(false);
     bool test_value_instruction(false);
@@ -49,12 +50,12 @@ bool Instructions::verif_line_of_instructions(vector<string> const results) cons
         "exit"
     }};
     
-    //Verifie si le premier mot de l'instruction est correct
     for(int i(0); i<17; i++){
         if(results[0] == instructions_list[i]){
             test_word_instruction = true;
         }
     }
+
     
     if (test_word_instruction == false){
         cout << "Syntax Error" << endl;
@@ -77,4 +78,88 @@ bool Instructions::verif_line_of_instructions(vector<string> const results) cons
         
     }
     return test_word_instruction;
+}
+
+void Instructions::execute(string instruction, string value) const
+{
+    
+    EnumParser<eInstructionsListe> InstructionParser;
+    eInstructionsListe index_of_instruction = InstructionParser.ParseEnum(instruction);
+    switch (index_of_instruction){
+        case push :
+            cout << "push" << endl;
+        break;
+        case pop :
+            cout << "pop" << endl;
+        break;
+        case dump :
+            cout << "dump" << endl;
+        break;
+        case clear :
+            cout << "clear" << endl;
+        break;
+        case swap_Instruction :
+            cout << "swap" << endl;
+        break;
+        case assert :
+            cout << "assert" << endl;
+        break;
+        case add_Instruction :
+            cout << "add" << endl;
+        break;
+        case sub :
+            cout << "sub" << endl;
+        break;
+        case mul :
+            cout << "mul" << endl;
+        break;
+        case div_Instruction :
+            cout << "div" << endl;
+        break;
+        case mod :
+            cout << "mod" << endl;
+        break;
+        case load :
+            cout << "load" << endl;
+        break;
+        case store :
+            cout << "store" << endl;
+        break;
+        case print :
+            cout << "print" << endl;
+        break;
+        case exit_Instruction :
+            cout << "exit" << endl;
+        break;
+        default:
+        break;
+    }
+}
+
+
+int Instructions::verif_and_execute(std::string const & line)
+{
+    this->set_results(this->split_line_of_instruction(line));
+    vector<string> results(get_resluts());
+    
+    if(results[0]==";;"){
+        return 0;
+    }else if(verif_line_of_instructions(results)){
+        if (results.size() <= 1){
+            execute(results[0]);
+        } else {
+            execute(results[0], results[1]);
+        }
+    } else {
+        cout << "Instruction non valide" << endl;
+    }
+    return 0;
+}
+
+void Instructions::set_results(std::vector<std::string>const & results){
+    this->results = results;
+}
+
+vector<string> Instructions::get_resluts() const{
+    return this->results;
 }

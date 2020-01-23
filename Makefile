@@ -8,7 +8,8 @@ NOW 				:=	$(shell date +"%d %h %g:%R")
 
 SRC		=	main.cpp \
 			Source_Instructions.cpp \
-			Instructions.cpp
+			Instructions.cpp \
+			Factory.cpp
 
 OBJ					=		$(SRC:.cpp=.o)
 

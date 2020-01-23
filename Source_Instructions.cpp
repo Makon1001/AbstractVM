@@ -21,16 +21,13 @@ Source_Instructions::Source_Instructions(){
 
 int Source_Instructions::instruction_from_input(){
     string line;
-    Instructions verif;
+    Instructions instructionLine;
     vector<string> results;
     
     do{
         getline(cin, line);
         if(!line.empty()){
-            results = verif.split_line_of_instruction(line);
-            if(verif.verif_line_of_instructions(results)){
-                cout << "OK test" << endl;
-            }
+            instructionLine.verif_and_execute(line);
         }
     }while(line.compare(";;") != 0);
     return 0;
@@ -38,15 +35,14 @@ int Source_Instructions::instruction_from_input(){
 
 int Source_Instructions::instruction_from_file(std::string const path){
     string line;
-    Instructions verif;
+    Instructions instructionLine;
     vector<string> results;
     
     ifstream Instruction_File(path.c_str());
     if(Instruction_File){ //tet ouverture du fichier
         while(getline(Instruction_File, line)){
             cout << line << endl;
-            results = verif.split_line_of_instruction(line);
-            verif.verif_line_of_instructions(results);
+            instructionLine.verif_and_execute(line);
         }
 
         //Executer les instructions
