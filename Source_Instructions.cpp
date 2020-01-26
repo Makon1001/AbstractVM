@@ -12,16 +12,17 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "Factory.hpp"
 
 using namespace std;
 
-Source_Instructions::Source_Instructions(){
-    
-}
+Source_Instructions::Source_Instructions(){}
+Source_Instructions::~Source_Instructions(){}
 
 int Source_Instructions::instruction_from_input(){
     string line;
     Instructions instructionLine;
+    //Factory factory;
     vector<string> results;
     
     do{

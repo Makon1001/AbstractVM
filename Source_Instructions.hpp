@@ -11,12 +11,17 @@
 
 #include <stdio.h>
 #include <string>
+#include "IOperand.hpp"
+#include <stack>
 
 class Source_Instructions
 {
     public :
     Source_Instructions();
+    ~Source_Instructions();
     int instruction_from_input();
     int instruction_from_file(std::string const path);
+    private:
+    std::stack<IOperand const *> stack;
 };
 #endif /* Source_Instructions_hpp */

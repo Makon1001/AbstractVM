@@ -21,6 +21,7 @@ template <typename T> class EnumParser
     map<string, T> enumMap;
 public:
     EnumParser(){};
+    ~EnumParser(){};
 
     T ParseEnum(const string &value)
     {
@@ -35,21 +36,21 @@ public:
 
 template<> EnumParser<eInstructionsListe>::EnumParser()
 {
-    enumMap["push"] = push;
-    enumMap["pop"] = pop;
-    enumMap["dump"] = dump;
-    enumMap["clear"] = clear;
-    enumMap["dup"] = dup;
+    enumMap["push"] = push_Instruction;
+    enumMap["pop"] = pop_Instruction;
+    enumMap["dump"] = dump_Instruction;
+    enumMap["clear"] = clear_Instruction;
+    enumMap["dup"] = dup_Instruction;
     enumMap["swap"] = swap_Instruction;
-    enumMap["assert"] = assert;
+    enumMap["assert"] = assert_Instruction;
     enumMap["add"] = add_Instruction;
-    enumMap["sub"] = sub;
-    enumMap["mul"] = mul;
+    enumMap["sub"] = sub_Instruction;
+    enumMap["mul"] = mul_Instruction;
     enumMap["div"] = div_Instruction;
-    enumMap["mod"] = mod;
-    enumMap["load"] = load;
-    enumMap["store"] = store;
-    enumMap["print"] = print;
+    enumMap["mod"] = mod_Instruction;
+    enumMap["load"] = load_Instruction;
+    enumMap["store"] = store_Instruction;
+    enumMap["print"] = print_Instruction;
     enumMap["exit"] = exit_Instruction;
 };
 

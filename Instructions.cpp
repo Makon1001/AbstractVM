@@ -15,8 +15,14 @@
 #include <array>
 #include <algorithm>
 #include <regex>
+#include <stack>
+#include "TOperand.hpp"
+#include "Factory.hpp"
 
 using namespace std;
+
+Instructions::Instructions(){}
+Instructions::~Instructions(){}
 
 vector<string> Instructions::split_line_of_instruction(string const & line) const
 {
@@ -80,52 +86,70 @@ bool Instructions::verif_line_of_instructions(vector<string> const & results) co
     return test_word_instruction;
 }
 
-void Instructions::execute(string instruction, string value) const
+
+
+/*void Instructions::push(IOperand const *operand, )
 {
-    
+    stack.push(operand);
+}*/
+
+
+
+
+void Instructions::execute(string instruction, string type, string value) const
+{
     EnumParser<eInstructionsListe> InstructionParser;
     eInstructionsListe index_of_instruction = InstructionParser.ParseEnum(instruction);
+    
     switch (index_of_instruction){
-        case push :
+        case push_Instruction :
             cout << "push" << endl;
+            cout << "type : " << type << endl;
+            cout << "value : " << value << endl;
         break;
-        case pop :
+        case pop_Instruction :
             cout << "pop" << endl;
         break;
-        case dump :
+        case dump_Instruction :
             cout << "dump" << endl;
         break;
-        case clear :
+        case clear_Instruction :
             cout << "clear" << endl;
         break;
         case swap_Instruction :
             cout << "swap" << endl;
         break;
-        case assert :
+        case assert_Instruction :
             cout << "assert" << endl;
+            cout << "type : " << type << endl;
+             cout << "value : " << value << endl;
         break;
         case add_Instruction :
             cout << "add" << endl;
         break;
-        case sub :
+        case sub_Instruction :
             cout << "sub" << endl;
         break;
-        case mul :
+        case mul_Instruction :
             cout << "mul" << endl;
         break;
         case div_Instruction :
             cout << "div" << endl;
         break;
-        case mod :
+        case mod_Instruction :
             cout << "mod" << endl;
         break;
-        case load :
+        case load_Instruction :
             cout << "load" << endl;
+            cout << "type : " << type << endl;
+             cout << "value : " << value << endl;
         break;
-        case store :
+        case store_Instruction :
             cout << "store" << endl;
+            cout << "type : " << type << endl;
+             cout << "value : " << value << endl;
         break;
-        case print :
+        case print_Instruction :
             cout << "print" << endl;
         break;
         case exit_Instruction :
@@ -134,6 +158,32 @@ void Instructions::execute(string instruction, string value) const
         default:
         break;
     }
+}
+
+vector<string> Instructions::splitTypeValue(vector<string>& results) const
+{
+    vector<string> splitInstruction;
+    splitInstruction.push_back(results[0]);
+    const string s = results[1];
+    
+    regex rgx1("int8|int16|int32|float|double|bigdecimal");
+    regex rgx2("\\([-]?[0-9]+\\)");
+    regex rgx3("[-]?[0-9]+");
+    regex rgx4("[-]?[0-9]+.[0-9]+");
+    smatch match;
+    
+    if (std::regex_search(s.begin(), s.end(), match, rgx1))
+        splitInstruction.push_back(match[0]);
+    
+    if ((splitInstruction[1]=="int8"||splitInstruction[1]=="int16"||splitInstruction[1]=="int32")&& regex_search(s.begin(), s.end(), match, rgx2)){
+        const string v = match[0];
+        if (std::regex_search(v.begin(), v.end(), match, rgx3)){
+            splitInstruction.push_back(match[0]);
+        }
+    }
+    if ((splitInstruction[1]=="float"||splitInstruction[1]=="double"||splitInstruction[1]=="bigdecimal")&& std::regex_search(s.begin(), s.end(), match, rgx4)){
+        splitInstruction.push_back(match[0]);}
+    return splitInstruction;
 }
 
 
@@ -147,8 +197,10 @@ int Instructions::verif_and_execute(std::string const & line)
     }else if(verif_line_of_instructions(results)){
         if (results.size() <= 1){
             execute(results[0]);
-        } else {
-            execute(results[0], results[1]);
+        }else {
+            this->set_results(this->splitTypeValue(results));
+            results=get_resluts();
+            execute(results[0], results[1], results[2]);
         }
     } else {
         cout << "Instruction non valide" << endl;

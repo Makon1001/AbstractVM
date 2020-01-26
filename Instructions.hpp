@@ -13,16 +13,22 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <stack>
+#include "IOperand.hpp"
 
 class Instructions
 {
     std::vector<std::string> results;
 public :
+    Instructions();
+    ~Instructions();
     std::vector<std::string> split_line_of_instruction(std::string const & line) const;
+    std::vector<std::string> splitTypeValue(std::vector<std::string>& results) const;
     bool verif_line_of_instructions(std::vector<std::string> const & results) const;
     int verif_and_execute(std::string const & line);
-    void execute(std::string instruction, std::string value="") const;
+    void execute(std::string instruction,std::string type="", std::string value="") const;
     void set_results(std::vector<std::string> const & results);
     std::vector<std::string> get_resluts() const;
+    void push(IOperand const *operand);
 };
 #endif /* Instructions_hpp */

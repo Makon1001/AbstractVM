@@ -11,21 +11,21 @@
 
 typedef enum
 {
-    push,
-    pop,
-    dump,
-    clear,
-    dup,
+    push_Instruction,
+    pop_Instruction,
+    dump_Instruction,
+    clear_Instruction,
+    dup_Instruction,
     swap_Instruction,
-    assert,
+    assert_Instruction,
     add_Instruction,
-    sub,
-    mul,
+    sub_Instruction,
+    mul_Instruction,
     div_Instruction,
-    mod,
-    load,
-    store,
-    print,
+    mod_Instruction,
+    load_Instruction,
+    store_Instruction,
+    print_Instruction,
     exit_Instruction,
 }eInstructionsListe;
 
